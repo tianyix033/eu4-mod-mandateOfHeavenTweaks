@@ -3,14 +3,20 @@
 # Hard gate on enacting Celestial Empire reforms. Referenced from the trigger
 # of every reform in common/imperial_reforms/01_china.txt.
 #
-# Vanilla's only conditions are the mandate cost and a floor of 80 mandate
+# Vanilla's only conditions are the mandate cost and a mandate floor
 # (CELESTIAL_EMPIRE_REFORM_COST / _MIN_VALUE in defines.lua). Nothing stops an
 # emperor reforming while bankrupt, mid-disaster, or at war. The first three
 # conditions below fix that, and they bind the player as well.
 #
-# The fourth is AI-only. A Celestial Empire that does not actually hold China
-# has a reconquest to finish before it starts reordering the realm; the player
-# is left to judge that case for themselves.
+# The fourth is AI-only: an emperor who does not actually hold China has a
+# reconquest to finish before reordering the realm. The player is left to judge
+# that case for themselves.
+#
+# china_superregion is 110 provinces, so a threshold of 100 tolerates ten in
+# foreign hands. This counts only the emperor's OWN provinces - provinces held
+# by their vassals or tributaries do not count toward it. Counting subjects too
+# would mean walking all 4941 provinces on the map, once per reform per refresh,
+# and num_of_owned_provinces_with touches only the emperor's own provinces.
 
 mht_can_pass_celestial_reform_trigger = {
 	is_bankrupt = no
@@ -20,20 +26,9 @@ mht_can_pass_celestial_reform_trigger = {
 		tooltip = mht_reform_needs_china_tt
 		OR = {
 			ai = no
-			NOT = {
-				calc_true_if = {
-					all_province = {
-						superregion = china_superregion
-						is_empty = no
-						NOT = {
-							OR = {
-								owned_by = ROOT
-								owner = { is_subject_of = ROOT }
-							}
-						}
-					}
-					amount = 10
-				}
+			num_of_owned_provinces_with = {
+				superregion = china_superregion
+				value = 100
 			}
 		}
 	}
