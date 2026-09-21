@@ -1,0 +1,40 @@
+# MandateOfHeavenTweaks
+#
+# Hard gate on enacting Celestial Empire reforms. Referenced from the trigger
+# of every reform in common/imperial_reforms/01_china.txt.
+#
+# Vanilla's only conditions are the mandate cost and a floor of 80 mandate
+# (CELESTIAL_EMPIRE_REFORM_COST / _MIN_VALUE in defines.lua). Nothing stops an
+# emperor reforming while bankrupt, mid-disaster, or at war. The first three
+# conditions below fix that, and they bind the player as well.
+#
+# The fourth is AI-only. A Celestial Empire that does not actually hold China
+# has a reconquest to finish before it starts reordering the realm; the player
+# is left to judge that case for themselves.
+
+mht_can_pass_celestial_reform_trigger = {
+	is_bankrupt = no
+	has_any_disaster = no
+	is_at_war = no
+	custom_trigger_tooltip = {
+		tooltip = mht_reform_needs_china_tt
+		OR = {
+			ai = no
+			NOT = {
+				calc_true_if = {
+					all_province = {
+						superregion = china_superregion
+						is_empty = no
+						NOT = {
+							OR = {
+								owned_by = ROOT
+								owner = { is_subject_of = ROOT }
+							}
+						}
+					}
+					amount = 10
+				}
+			}
+		}
+	}
+}

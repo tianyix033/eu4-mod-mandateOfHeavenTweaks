@@ -1,6 +1,7 @@
 establish_gaituguiliu_decision = {
 	empire = celestial_empire
 	trigger = {
+		mht_can_pass_celestial_reform_trigger = yes	#@ new. See common/scripted_triggers/zz_mht_celestial_reforms.txt.
 		if = { 
 			limit = { has_estate = estate_eunuchs } 
 			OR = { 
@@ -23,6 +24,9 @@ establish_gaituguiliu_decision = {
 
 seaban_decision = {
 	empire = celestial_empire
+	trigger = {									#@ new block; this reform had no trigger of its own.
+		mht_can_pass_celestial_reform_trigger = yes	#@ new. See common/scripted_triggers/zz_mht_celestial_reforms.txt.
+	}
 	emperor = {
 		diplomats = 1
 		trade_efficiency = 0.05
@@ -32,6 +36,7 @@ seaban_decision = {
 reform_land_tax_decision = {
 	empire = celestial_empire
 	trigger = {
+		mht_can_pass_celestial_reform_trigger = yes	#@ new. See common/scripted_triggers/zz_mht_celestial_reforms.txt.
 		OR = { 
 			crown_land_share = 35
 			adm = 5 
@@ -51,6 +56,7 @@ reform_land_tax_decision = {
 military_governors_decision = {
 	empire = celestial_empire
 	trigger = {
+		mht_can_pass_celestial_reform_trigger = yes	#@ new. See common/scripted_triggers/zz_mht_celestial_reforms.txt.
 		OR = { 
 			monthly_mil = 10 
 			national_focus = MIL 
@@ -68,6 +74,7 @@ military_governors_decision = {
 centralizing_top_government_decision = {
 	empire = celestial_empire
 	trigger = { crown_land_share = 65 } 
+		mht_can_pass_celestial_reform_trigger = yes	#@ new. See common/scripted_triggers/zz_mht_celestial_reforms.txt.
 	member = { all_estate_influence_modifier = -0.05 }
 	emperor = { monarch_admin_power = 1 }
 	
@@ -76,6 +83,7 @@ centralizing_top_government_decision = {
 vassalize_tributaries_decision = {
 	empire = celestial_empire
 	trigger = { empire_of_china_num_reforms_passed = 8 }
+		mht_can_pass_celestial_reform_trigger = yes	#@ new. See common/scripted_triggers/zz_mht_celestial_reforms.txt.
 	emperor = {
 		imperial_mandate = 0.05
 		liberty_desire_from_subject_development = -0.33
@@ -96,6 +104,7 @@ vassalize_tributaries_decision = {
 codify_single_whip_law_decision = {
 	empire = celestial_empire
 	trigger = { 
+		mht_can_pass_celestial_reform_trigger = yes	#@ new. See common/scripted_triggers/zz_mht_celestial_reforms.txt.
 		empire_of_china_reform_passed = reform_land_tax_decision 
 		OR = { 
 			mission_completed = mng_single_whip_law
@@ -114,6 +123,7 @@ codify_single_whip_law_decision = {
 reign_in_estates_decision = {
 	empire = celestial_empire
 	trigger = {
+		mht_can_pass_celestial_reform_trigger = yes	#@ new. See common/scripted_triggers/zz_mht_celestial_reforms.txt.
 		OR = { 
 			crown_land_share = 90 
 			absolutism = 75 
@@ -125,6 +135,9 @@ reign_in_estates_decision = {
 
 reform_civil_registration_decision = {
 	empire = celestial_empire
+	trigger = {									#@ new block; this reform had no trigger of its own.
+		mht_can_pass_celestial_reform_trigger = yes	#@ new. See common/scripted_triggers/zz_mht_celestial_reforms.txt.
+	}
 	member = { global_tax_modifier = 0.1 }
 	emperor = { development_cost = -0.05 autonomy_change_time = -0.2 }
 }
@@ -132,6 +145,7 @@ reform_civil_registration_decision = {
 establish_silver_standard_decision = {
 	empire = celestial_empire 
 	trigger = {
+		mht_can_pass_celestial_reform_trigger = yes	#@ new. See common/scripted_triggers/zz_mht_celestial_reforms.txt.
 		NOT = { inflation = 1 } 
 		OR = { 
 			monthly_adm = 10 
@@ -151,6 +165,7 @@ establish_silver_standard_decision = {
 kanhe_certificate_decision = {
 	empire = celestial_empire 
 	trigger = {
+		mht_can_pass_celestial_reform_trigger = yes	#@ new. See common/scripted_triggers/zz_mht_celestial_reforms.txt.
 		OR = { 
 			full_idea_group = trade_ideas 
 			any_subject_country = { is_colonial_nation = yes } 
@@ -168,6 +183,7 @@ kanhe_certificate_decision = {
 new_keju_formats_decision = {
 	empire = celestial_empire 
 	trigger = {
+		mht_can_pass_celestial_reform_trigger = yes	#@ new. See common/scripted_triggers/zz_mht_celestial_reforms.txt.
 		OR = {
 			has_reform = examination_system_reform
 			full_idea_group = administrative_ideas  
@@ -187,6 +203,7 @@ new_keju_formats_decision = {
 inclusive_monarchy_decision = {
 	empire = celestial_empire 
 	trigger = {
+		mht_can_pass_celestial_reform_trigger = yes	#@ new. See common/scripted_triggers/zz_mht_celestial_reforms.txt.
 		OR = { 
 			full_idea_group = humanist_ideas 
 			harmony = 80 
@@ -204,6 +221,7 @@ inclusive_monarchy_decision = {
 promote_bureaucratic_faction_decision = {
 	empire = celestial_empire
 	trigger = {
+		mht_can_pass_celestial_reform_trigger = yes	#@ new. See common/scripted_triggers/zz_mht_celestial_reforms.txt.
 		not = { empire_of_china_reform_passed = promote_military_faction_decision }
 	}
 	member = {
@@ -219,6 +237,7 @@ promote_bureaucratic_faction_decision = {
 promote_military_faction_decision = {
 	empire = celestial_empire 
 	trigger = {
+		mht_can_pass_celestial_reform_trigger = yes	#@ new. See common/scripted_triggers/zz_mht_celestial_reforms.txt.
 		not = { empire_of_china_reform_passed = promote_bureaucratic_faction_decision }
 	}
 	member = {
@@ -234,6 +253,7 @@ promote_military_faction_decision = {
 unifed_trade_market_decision = {
 	empire = celestial_empire 
 	trigger = { 
+		mht_can_pass_celestial_reform_trigger = yes	#@ new. See common/scripted_triggers/zz_mht_celestial_reforms.txt.
 		empire_of_china_reform_passed = seaban_decision
 		empire_of_china_reform_passed = kanhe_certificate_decision
 		OR = { 
@@ -263,6 +283,7 @@ unifed_trade_market_decision = {
 reform_the_military_branch_decision = {
 	empire = celestial_empire 
 	trigger = { 
+		mht_can_pass_celestial_reform_trigger = yes	#@ new. See common/scripted_triggers/zz_mht_celestial_reforms.txt.
 		if = {
 			limit = {
 				has_dlc = "Cradle of Civilization"
@@ -289,6 +310,7 @@ reform_the_military_branch_decision = {
 modernize_the_banners_decision = {
 	empire = celestial_empire 
 	trigger = { 
+		mht_can_pass_celestial_reform_trigger = yes	#@ new. See common/scripted_triggers/zz_mht_celestial_reforms.txt.
 		OR = {
 			num_of_banners = 25 
 			has_global_modifier_value = {
@@ -306,6 +328,7 @@ modernize_the_banners_decision = {
 study_foreign_ship_designs_decision = {
 	empire = celestial_empire 
 	trigger = { 
+		mht_can_pass_celestial_reform_trigger = yes	#@ new. See common/scripted_triggers/zz_mht_celestial_reforms.txt.
 		navy_tradition = 50 
 		OR = { 
 			num_of_heavy_ship = 50
@@ -324,6 +347,7 @@ study_foreign_ship_designs_decision = {
 tributary_embassies_decision = {
 	empire = celestial_empire 
 	trigger = { 
+		mht_can_pass_celestial_reform_trigger = yes	#@ new. See common/scripted_triggers/zz_mht_celestial_reforms.txt.
 		calc_true_if = {
 			NOT = { 
 				any_subject_country = {
@@ -352,6 +376,7 @@ tributary_embassies_decision = {
 new_world_discovery_decision = {
 	empire = celestial_empire 
 	trigger = { 
+		mht_can_pass_celestial_reform_trigger = yes	#@ new. See common/scripted_triggers/zz_mht_celestial_reforms.txt.
 		num_of_explorers = 1 
 		num_of_light_ship = 50 
 	}
