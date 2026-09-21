@@ -142,6 +142,10 @@ country_event = {
 				factor = 0					#@ but not morale or discipline, which a low-mandate
 				NOT = { army_strength = { who = FROM  value = 0.5 } }						#@ Emperor lacks, so this threshold favours the horde
 			}
+			modifier = {					#@ bankrupt - no war is affordable
+				factor = 0
+				is_bankrupt = yes
+			}
 			modifier = {					#@ no men to send
 				factor = 0
 				NOT = { manpower_percentage = 0.33 }
@@ -149,12 +153,12 @@ country_event = {
 			modifier = {					#@ already losing a war elsewhere
 				factor = 0
 				is_at_war = yes
-				NOT = { war_score = -10 }
+				NOT = { war_score = -25 }
 			}
 			modifier = {					#@ at war but holding - still a poor moment for a second front
 				factor = 0.25
 				is_at_war = yes
-				war_score = -10
+				war_score = -25
 			}
 		}
 		add_horde_unity = 10
@@ -181,6 +185,10 @@ country_event = {
 				factor = 25
 				NOT = { army_strength = { who = FROM  value = 0.5 } }
 			}
+			modifier = {					#@ bankrupt - submission is all that is left
+				factor = 1000
+				is_bankrupt = yes
+			}
 			modifier = {					#@ no men to send
 				factor = 10
 				NOT = { manpower_percentage = 0.33 }
@@ -188,7 +196,7 @@ country_event = {
 			modifier = {					#@ already losing a war - cannot afford another enemy
 				factor = 60
 				is_at_war = yes
-				NOT = { war_score = -10 }
+				NOT = { war_score = -25 }
 			}
 		}
 		add_horde_unity = -20
@@ -209,6 +217,10 @@ country_event = {
 			modifier = {					#@ outmatched, but defiance costs nothing today
 				factor = 1.25
 				NOT = { army_strength = { who = FROM  value = 0.5 } }
+			}
+			modifier = {					#@ bankrupt - defiance is not affordable either
+				factor = 0
+				is_bankrupt = yes
 			}
 			modifier = {					#@ no men to send
 				factor = 1.5
@@ -234,7 +246,22 @@ country_event = {
 	# back down
 	option = {
 		name = mht_nomadic.3.a
-		ai_chance = { factor = 20 }			#@ TODO tune
+		ai_chance = {
+			factor = 1
+			modifier = {					#@ bankrupt - the treasury decides this, not the court
+				factor = 10000
+				is_bankrupt = yes
+			}
+			modifier = {					#@ not actually stronger than them
+				factor = 10000
+				NOT = { army_strength = { who = FROM  value = 1.0 } }
+			}
+			modifier = {					#@ already losing a war badly
+				factor = 10000
+				is_at_war = yes
+				NOT = { war_score = -25 }
+			}
+		}
 		add_mandate = -10
 		add_estate_loyalty = { estate = estate_burghers loyalty = -10 }
 		add_estate_loyalty = { estate = estate_nobles   loyalty = -10 }
@@ -244,7 +271,39 @@ country_event = {
 	# show superiority - insult wins on warscore, no desert sieges needed
 	option = {
 		name = mht_nomadic.3.b
-		ai_chance = { factor = 30 }			#@ TODO tune
+		ai_chance = {
+			factor = 200					#@ short of men and not clearly dominant: win on warscore
+			modifier = {					#@ rather than besiege the steppe
+				factor = 0
+				NOT = {
+					AND = {
+				NOT = { manpower_percentage = 0.33 }
+				NOT = { army_strength = { who = FROM  value = 1.5 } }
+					}
+				}
+			}
+			modifier = {					#@ bankrupt
+				factor = 0
+				is_bankrupt = yes
+			}
+			modifier = {					#@ not actually stronger than them
+				factor = 0
+				NOT = { army_strength = { who = FROM  value = 1.0 } }
+			}
+			modifier = {					#@ already losing a war badly
+				factor = 0
+				is_at_war = yes
+				NOT = { war_score = -25 }
+			}
+			modifier = {					#@ unification outranks this
+				factor = 0
+				has_casus_belli = { type = cb_chinese_unification  target = FROM }
+			}
+			modifier = {					#@ imperialism outranks this
+				factor = 0
+				has_casus_belli = { type = cb_imperial  target = FROM }
+			}
+		}
 		declare_war_with_cb = {
 			who = FROM
 			casus_belli = cb_insult
@@ -254,7 +313,37 @@ country_event = {
 	# make them a tributary
 	option = {
 		name = mht_nomadic.3.c
-		ai_chance = { factor = 30 }			#@ TODO tune
+		ai_chance = {
+			factor = 200					#@ the default war when we can afford to press it
+			modifier = {					#@ the cheap-war case belongs to the insult option
+				factor = 0
+				AND = {
+				NOT = { manpower_percentage = 0.33 }
+				NOT = { army_strength = { who = FROM  value = 1.5 } }
+				}
+			}
+			modifier = {					#@ bankrupt
+				factor = 0
+				is_bankrupt = yes
+			}
+			modifier = {					#@ not actually stronger than them
+				factor = 0
+				NOT = { army_strength = { who = FROM  value = 1.0 } }
+			}
+			modifier = {					#@ already losing a war badly
+				factor = 0
+				is_at_war = yes
+				NOT = { war_score = -25 }
+			}
+			modifier = {					#@ unification outranks this
+				factor = 0
+				has_casus_belli = { type = cb_chinese_unification  target = FROM }
+			}
+			modifier = {					#@ imperialism outranks this
+				factor = 0
+				has_casus_belli = { type = cb_imperial  target = FROM }
+			}
+		}
 		declare_war_with_cb = {
 			who = FROM
 			casus_belli = cb_force_tributary
@@ -270,7 +359,22 @@ country_event = {
 				target = FROM
 			}
 		}
-		ai_chance = { factor = 40 }			#@ TODO tune
+		ai_chance = {
+			factor = 1000					#@ first preference when the CB exists
+			modifier = {					#@ bankrupt
+				factor = 0
+				is_bankrupt = yes
+			}
+			modifier = {					#@ not actually stronger than them
+				factor = 0
+				NOT = { army_strength = { who = FROM  value = 1.0 } }
+			}
+			modifier = {					#@ already losing a war badly
+				factor = 0
+				is_at_war = yes
+				NOT = { war_score = -25 }
+			}
+		}
 		declare_war_with_cb = {
 			who = FROM
 			casus_belli = cb_chinese_unification
@@ -286,7 +390,26 @@ country_event = {
 				target = FROM
 			}
 		}
-		ai_chance = { factor = 40 }			#@ TODO tune
+		ai_chance = {
+			factor = 500					#@ second preference
+			modifier = {					#@ bankrupt
+				factor = 0
+				is_bankrupt = yes
+			}
+			modifier = {					#@ not actually stronger than them
+				factor = 0
+				NOT = { army_strength = { who = FROM  value = 1.0 } }
+			}
+			modifier = {					#@ already losing a war badly
+				factor = 0
+				is_at_war = yes
+				NOT = { war_score = -25 }
+			}
+			modifier = {					#@ unification outranks this
+				factor = 0
+				has_casus_belli = { type = cb_chinese_unification  target = FROM }
+			}
+		}
 		declare_war_with_cb = {
 			who = FROM
 			casus_belli = cb_imperial
