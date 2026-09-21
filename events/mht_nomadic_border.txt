@@ -129,7 +129,34 @@ country_event = {
 	# invade now
 	option = {
 		name = mht_nomadic.2.a
-		ai_chance = { factor = 50 }			#@ TODO tune
+		ai_chance = {
+			factor = 60
+			modifier = {					#@ stronger than the Emperor - the moment is now
+				factor = 6
+				army_strength = {
+					who = FROM
+					value = 1.0
+				}
+			}
+			modifier = {					#@ badly outmatched. army_strength weighs size and mil tech
+				factor = 0					#@ but not morale or discipline, which a low-mandate
+				NOT = { army_strength = { who = FROM  value = 0.5 } }						#@ Emperor lacks, so this threshold favours the horde
+			}
+			modifier = {					#@ no men to send
+				factor = 0
+				NOT = { manpower_percentage = 0.33 }
+			}
+			modifier = {					#@ already losing a war elsewhere
+				factor = 0
+				is_at_war = yes
+				NOT = { war_score = -10 }
+			}
+			modifier = {					#@ at war but holding - still a poor moment for a second front
+				factor = 0.25
+				is_at_war = yes
+				war_score = -10
+			}
+		}
 		add_horde_unity = 10
 		add_army_tradition = 5
 		declare_war_with_cb = {
@@ -141,7 +168,29 @@ country_event = {
 	# submit
 	option = {
 		name = mht_nomadic.2.b
-		ai_chance = { factor = 25 }			#@ TODO tune
+		ai_chance = {
+			factor = 2
+			modifier = {					#@ stronger than the Emperor - submission is unthinkable
+				factor = 0.1
+				army_strength = {
+					who = FROM
+					value = 1.0
+				}
+			}
+			modifier = {					#@ badly outmatched
+				factor = 25
+				NOT = { army_strength = { who = FROM  value = 0.5 } }
+			}
+			modifier = {					#@ no men to send
+				factor = 10
+				NOT = { manpower_percentage = 0.33 }
+			}
+			modifier = {					#@ already losing a war - cannot afford another enemy
+				factor = 60
+				is_at_war = yes
+				NOT = { war_score = -10 }
+			}
+		}
 		add_horde_unity = -20
 		add_prestige = -10
 		FROM = {
@@ -155,7 +204,17 @@ country_event = {
 	# refuse, and let them come
 	option = {
 		name = mht_nomadic.2.c
-		ai_chance = { factor = 25 }			#@ TODO tune
+		ai_chance = {
+			factor = 40
+			modifier = {					#@ outmatched, but defiance costs nothing today
+				factor = 1.25
+				NOT = { army_strength = { who = FROM  value = 0.5 } }
+			}
+			modifier = {					#@ no men to send
+				factor = 1.5
+				NOT = { manpower_percentage = 0.33 }
+			}
+		}
 		add_horde_unity = 5
 		FROM = { country_event = { id = mht_nomadic.3 } }
 	}
