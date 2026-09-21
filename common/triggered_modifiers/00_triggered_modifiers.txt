@@ -659,16 +659,16 @@ lost_control_of_nanjing = {
 	imperial_mandate = -0.05
 }
 
-lost_control_of_canton = {
-	potential = {
-		has_reform = celestial_empire
-		has_dlc = "Mandate of Heaven"
+lost_control_of_xian = {			#@ was lost_control_of_canton. Canton was a great
+	potential = {					#@ trading port, but it never carried the dynastic
+		has_reform = celestial_empire	#@ weight of an imperial capital. Xi'an did -- it was
+		has_dlc = "Mandate of Heaven"	#@ the capital of Zhou, Qin, Han, Sui and Tang.
 	}
 
 	trigger = {
 		OR = {
-			NOT = { owns = 667 }
-			NOT = { controls = 667 }
+			NOT = { owns = 700 }		#@ was 667 (Canton); 700 is Xi'an
+			NOT = { controls = 700 }	#@ was 667 (Canton)
 		}
 	}
 
