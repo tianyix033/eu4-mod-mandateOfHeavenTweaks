@@ -173,10 +173,12 @@ empire_of_china_nomadic_border = {
 	
 	
 	on_start = empire_of_china_nomadic_border_events.1
-	on_end = empire_of_china_nomadic_border_events.2
+	on_end = mht_nomadic.4		#@ was empire_of_china_nomadic_border_events.2; ours clears
+								#@ the ultimatum flag then fires that event unchanged
 	
 	on_monthly = {
 		events = {
+			mht_nomadic.1 #@ our ultimatum chain - forces the standoff to resolve
 			mch_missions.5 # Koxinga flees to Taiwan
 			ming_crisis.3 # Li Zicheng's Rebellion and the Shun Dynasty
 			ming_crisis.4 # Autonomy for Yunnan province

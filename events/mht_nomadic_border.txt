@@ -1,0 +1,264 @@
+namespace = mht_nomadic
+
+###############################################################################
+# Nomadic Border disaster - the standoff resolves one way or the other.
+#
+# Vanilla lets the Emperor of China sit at zero mandate indefinitely: the
+# disaster never ends, and because a country can only have one disaster at a
+# time, the Ming Crisis can never fire either. These events force the question.
+#
+#   mht_nomadic.1  hidden picker, fires on the Emperor from the disaster's
+#                  on_monthly, selects the horde and passes it the ultimatum
+#   mht_nomadic.2  the ultimatum, fires on the horde        (FROM = Emperor)
+#   mht_nomadic.3  the Emperor's answer, fires on the Emperor (FROM = horde)
+###############################################################################
+
+
+# ------------------------------------- the court resolves to act, on EoC ----
+# Fires on the Emperor from the disaster's on_monthly once mandate has fallen
+# below 20. The horde is chosen in immediate so the description can name it;
+# the option carries the ultimatum to them.
+#
+# EU4 has no scope sorting, so "the largest horde" is approximated by trying
+# the biggest development band first and falling back. A horde reaching 300
+# development on China's border is rare enough that there is usually only one
+# candidate anyway.
+country_event = {
+	id = mht_nomadic.1
+	title = mht_nomadic.1.t
+	desc = mht_nomadic.1.d
+	picture = CHINESE_GENERALS_eventPicture
+
+	is_triggered_only = yes
+
+	trigger = {
+		is_emperor_of_china = yes
+		has_disaster = empire_of_china_nomadic_border
+		NOT = { imperial_mandate = 20 }
+		NOT = { has_country_flag = mht_nomadic_ultimatum_sent }
+		any_neighbor_country = {
+			is_subject = no
+			NOT = { truce_with = ROOT }
+			NOT = { alliance_with = ROOT }
+			OR = {
+				has_reform = steppe_horde
+				has_reform = great_mongol_state_reform
+			}
+			total_own_and_non_tributary_subject_development = 300
+		}
+	}
+
+	immediate = {
+		hidden_effect = {
+			set_country_flag = mht_nomadic_ultimatum_sent
+			save_event_target_as = mht_emperor
+			if = {
+				limit = {
+					any_neighbor_country = {
+						is_subject = no
+						NOT = { truce_with = ROOT }
+						NOT = { alliance_with = ROOT }
+						OR = { has_reform = steppe_horde  has_reform = great_mongol_state_reform }
+						total_own_and_non_tributary_subject_development = 700
+					}
+				}
+				random_neighbor_country = {
+					limit = {
+						is_subject = no
+						NOT = { truce_with = ROOT }
+						NOT = { alliance_with = ROOT }
+						OR = { has_reform = steppe_horde  has_reform = great_mongol_state_reform }
+						total_own_and_non_tributary_subject_development = 700
+					}
+					save_event_target_as = mht_horde
+				}
+			}
+			else_if = {
+				limit = {
+					any_neighbor_country = {
+						is_subject = no
+						NOT = { truce_with = ROOT }
+						NOT = { alliance_with = ROOT }
+						OR = { has_reform = steppe_horde  has_reform = great_mongol_state_reform }
+						total_own_and_non_tributary_subject_development = 500
+					}
+				}
+				random_neighbor_country = {
+					limit = {
+						is_subject = no
+						NOT = { truce_with = ROOT }
+						NOT = { alliance_with = ROOT }
+						OR = { has_reform = steppe_horde  has_reform = great_mongol_state_reform }
+						total_own_and_non_tributary_subject_development = 500
+					}
+					save_event_target_as = mht_horde
+				}
+			}
+			else = {
+				random_neighbor_country = {
+					limit = {
+						is_subject = no
+						NOT = { truce_with = ROOT }
+						NOT = { alliance_with = ROOT }
+						OR = { has_reform = steppe_horde  has_reform = great_mongol_state_reform }
+						total_own_and_non_tributary_subject_development = 300
+					}
+					save_event_target_as = mht_horde
+				}
+			}
+		}
+	}
+
+	option = {
+		name = mht_nomadic.1.a
+		event_target:mht_horde = { country_event = { id = mht_nomadic.2 } }
+	}
+}
+
+
+# ------------------------------------------- the ultimatum, on the horde ----
+# ROOT = the horde, FROM = the Emperor of China
+country_event = {
+	id = mht_nomadic.2
+	title = mht_nomadic.2.t
+	desc = mht_nomadic.2.d
+	picture = HORDE_eventPicture
+
+	is_triggered_only = yes
+
+	# invade now
+	option = {
+		name = mht_nomadic.2.a
+		ai_chance = { factor = 50 }			#@ TODO tune
+		add_horde_unity = 10
+		add_army_tradition = 5
+		declare_war_with_cb = {
+			who = FROM
+			casus_belli = cb_horde_vs_civ
+		}
+	}
+
+	# submit
+	option = {
+		name = mht_nomadic.2.b
+		ai_chance = { factor = 25 }			#@ TODO tune
+		add_horde_unity = -20
+		add_prestige = -10
+		FROM = {
+			create_subject = {
+				subject_type = tributary_state
+				subject = ROOT
+			}
+		}
+	}
+
+	# refuse, and let them come
+	option = {
+		name = mht_nomadic.2.c
+		ai_chance = { factor = 25 }			#@ TODO tune
+		add_horde_unity = 5
+		FROM = { country_event = { id = mht_nomadic.3 } }
+	}
+}
+
+
+# -------------------------------------- the Emperor's answer, on the EoC ----
+# ROOT = the Emperor of China, FROM = the horde
+country_event = {
+	id = mht_nomadic.3
+	title = mht_nomadic.3.t
+	desc = mht_nomadic.3.d
+	picture = CHINESE_GENERALS_eventPicture
+
+	is_triggered_only = yes
+
+	# back down
+	option = {
+		name = mht_nomadic.3.a
+		ai_chance = { factor = 20 }			#@ TODO tune
+		add_mandate = -10
+		add_estate_loyalty = { estate = estate_burghers loyalty = -10 }
+		add_estate_loyalty = { estate = estate_nobles   loyalty = -10 }
+		add_estate_loyalty = { estate = estate_church   loyalty = -10 }
+	}
+
+	# show superiority - insult wins on warscore, no desert sieges needed
+	option = {
+		name = mht_nomadic.3.b
+		ai_chance = { factor = 30 }			#@ TODO tune
+		declare_war_with_cb = {
+			who = FROM
+			casus_belli = cb_insult
+		}
+	}
+
+	# make them a tributary
+	option = {
+		name = mht_nomadic.3.c
+		ai_chance = { factor = 30 }			#@ TODO tune
+		declare_war_with_cb = {
+			who = FROM
+			casus_belli = cb_force_tributary
+		}
+	}
+
+	# unify China
+	option = {
+		name = mht_nomadic.3.e
+		trigger = {
+			has_casus_belli = {
+				type = cb_chinese_unification
+				target = FROM
+			}
+		}
+		ai_chance = { factor = 40 }			#@ TODO tune
+		declare_war_with_cb = {
+			who = FROM
+			casus_belli = cb_chinese_unification
+		}
+	}
+
+	# imperialism
+	option = {
+		name = mht_nomadic.3.f
+		trigger = {
+			has_casus_belli = {
+				type = cb_imperial
+				target = FROM
+			}
+		}
+		ai_chance = { factor = 40 }			#@ TODO tune
+		declare_war_with_cb = {
+			who = FROM
+			casus_belli = cb_imperial
+		}
+	}
+}
+
+
+# ------------------------------------------- disaster over, reset the flag ----
+# The disaster's on_end takes a single event, and vanilla already points it at
+# empire_of_china_nomadic_border_events.2. This stands in front of that event,
+# clears our once-only flag so the standoff can happen again if the disaster
+# recurs, then hands straight over so vanilla's +30 mandate and +2 stability
+# still land.
+country_event = {
+	id = mht_nomadic.4
+	title = mht_nomadic.4.t
+	desc = mht_nomadic.4.d
+	picture = CHINESE_GENERAL_eventPicture
+
+	hidden = yes
+	is_triggered_only = yes
+
+	immediate = {
+		hidden_effect = {
+			clr_country_flag = mht_nomadic_ultimatum_sent
+			country_event = { id = empire_of_china_nomadic_border_events.2 }
+		}
+	}
+
+	option = {
+		name = mht_nomadic.4.a
+	}
+}
