@@ -167,7 +167,7 @@ empire_of_china_nomadic_border = {
 		defensiveness = 0.1					#@ a buff: signals stronger defenses
 		leader_cost = -0.25					#@ a buff: war times call for more generals
 		land_maintenance_modifier = 0.25	#@ new
-		army_tradition = 0.1				#@ a buff
+		army_tradition = 1					#@ a buff
 		#@ land_morale = -0.15
 	}	
 	
