@@ -7,7 +7,10 @@ ming_crisis = {
 	
 	can_start = {
 		has_any_disaster = no
-		NOT = { current_age = age_of_discovery }
+		is_institution_enabled = global_trade	#@ was: NOT = { current_age = age_of_discovery }.
+											#@ Age of Reformation begins ~1530, which started the crisis far too
+											#@ early. Global Trade has historical_start_date 1600.1.1, matching
+											#@ the historical crisis of 1600-1644.
 		if = {
 			limit = {	
 				has_dlc = "Mandate of Heaven"
