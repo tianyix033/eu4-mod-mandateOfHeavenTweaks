@@ -156,11 +156,19 @@ empire_of_china_nomadic_border = {
 		}
 	}
 	
-
+	#@ overall I want this disaster to be less punishing and symbolizes the empire
+	#@ dealing with harassments and preparing for war, which has upsides
+	#@ and downsides
 	modifier = {
-		imperial_mandate = -0.3
+		imperial_mandate = -0.25			#@ was -0.3, slightly toned down
 		reduced_liberty_desire = -25
-		land_morale = -0.15
+		global_unrest = 5					#@ new
+		fort_maintenance_modifier = 0.25	#@ new
+		defensiveness = 0.1					#@ a buff: signals stronger defenses
+		leader_cost = -0.25					#@ a buff: war times call for more generals
+		land_maintenance_modifier = 0.25	#@ new
+		army_tradition = 0.1				#@ a buff
+		#@ land_morale = -0.15
 	}	
 	
 	

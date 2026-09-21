@@ -9,8 +9,7 @@ ming_crisis = {
 		has_any_disaster = no
 		is_institution_enabled = global_trade	#@ was: NOT = { current_age = age_of_discovery }.
 											#@ Age of Reformation begins ~1530, which started the crisis far too
-											#@ early. Global Trade has historical_start_date 1600.1.1, matching
-											#@ the historical crisis of 1600-1644.
+											#@ early. Global Trade has historical_start_date 1600.1.1.
 		if = {
 			limit = {	
 				has_dlc = "Mandate of Heaven"
@@ -109,12 +108,13 @@ ming_crisis = {
 	}
 	
 	modifier = {
-		land_morale = -0.15
-		technology_cost = 0.2
-		global_unrest = 15
+		#@ land_morale = -0.15		low mandate already does that
+		#@ technology_cost = 0.2	on the contrary, late Ming starts to get a lot of tech progress
+		global_unrest = 5			#@ was 15 - low mandate already gives 5 unrest
 		global_monthly_devastation = 0.08
 		global_tax_modifier = -0.5
-		global_trade_goods_size_modifier = -0.3
+		global_trade_goods_size_modifier = -0.25		#@ was -0.3
+		defensiveness = -0.5			#@ new
 	}
 	
 	on_start = ming_crisis.1
