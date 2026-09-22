@@ -111,10 +111,13 @@ ming_crisis = {
 		#@ land_morale = -0.15		low mandate already does that
 		#@ technology_cost = 0.2	on the contrary, late Ming starts to get a lot of tech progress
 		global_unrest = 5			#@ was 15 - low mandate already gives 5 unrest
+		global_rebel_suppression_efficiency = -0.5		#@ new
 		global_monthly_devastation = 0.08
 		global_tax_modifier = -0.5
 		global_trade_goods_size_modifier = -0.25		#@ was -0.3
-		defensiveness = -0.5			#@ new
+		defensiveness = -0.5							#@ new
+		stability_cost_modifier = 0.5					#@ new
+		recover_army_morale_speed = -0.25				#@ new
 	}
 	
 	on_start = ming_crisis.1
