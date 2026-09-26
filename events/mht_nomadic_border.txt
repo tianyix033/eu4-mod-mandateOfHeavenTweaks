@@ -436,11 +436,80 @@ country_event = {
 	immediate = {
 		hidden_effect = {
 			clr_country_flag = mht_nomadic_ultimatum_sent
-			country_event = { id = empire_of_china_nomadic_border_events.2 }
+			#@ Two ways out of this disaster now, and they are not worth the same.
+			#@
+			#@ A truce ends it while the horde is still an independent 300+ dev
+			#@ horde on our border - nothing was actually settled, we just bought
+			#@ years. Vanilla's end event pays +30 mandate and +2 stability, which
+			#@ on a 5-year truce cycle is farmable, and it would pay out for
+			#@ LOSING the war just as readily.
+			#@
+			#@ So: if a shielding truce is what cleared it, take the weaker
+			#@ mht_nomadic.5 instead. Every other route - the horde subjugated,
+			#@ driven under 300 dev, allied, de-horded, or our losing the mandate
+			#@ outright - falls through to vanilla's event unchanged.
+			#@
+			#@ The conditions below deliberately mirror the disaster's own
+			#@ qualifying test in common/disasters/. A tributary horde fails
+			#@ is_subject = no and a stripped one fails the development test, so
+			#@ the force-tributary and unification wars still pay full price even
+			#@ though those peaces set a truce too.
+			if = {
+				limit = {
+					is_emperor_of_china = yes
+					any_neighbor_country = {
+						truce_with = ROOT
+						is_subject = no
+						NOT = { alliance_with = ROOT }
+						OR = {
+							has_reform = steppe_horde
+							has_reform = great_mongol_state_reform
+						}
+						total_own_and_non_tributary_subject_development = 300
+					}
+				}
+				country_event = { id = mht_nomadic.5 }
+			}
+			else = {
+				country_event = { id = empire_of_china_nomadic_border_events.2 }
+			}
 		}
 	}
 
 	option = {
 		name = mht_nomadic.4.a
+	}
+}
+
+
+########################################
+# The Border Quiets
+#
+# The weaker end of the disaster, for when a truce cleared it rather than a
+# settlement. Deliberately says nothing about who won: can_end fires on any
+# peace, so this same event covers a victory and a defeat.
+#
+# on_non_estate_disaster_end is vanilla's own bookkeeping from
+# empire_of_china_nomadic_border_events.2 - it increments
+# total_disasters_completed_counter. Kept here so the counter stays correct on
+# this path too.
+########################################
+country_event = {
+	id = mht_nomadic.5
+	title = mht_nomadic.5.t
+	desc = mht_nomadic.5.d
+	picture = CHINESE_GENERAL_eventPicture
+
+	is_triggered_only = yes
+	major = yes
+
+	immediate = {
+		on_non_estate_disaster_end = yes
+	}
+
+	option = {
+		name = mht_nomadic.5.a
+		add_mandate = 10			#@ vanilla's end event pays 30
+		add_stability = 1			#@ vanilla's end event pays 2
 	}
 }
