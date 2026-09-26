@@ -136,6 +136,22 @@ empire_of_china_nomadic_border = {
 			NOT = {
 				any_neighbor_country = {
 					NOT = { alliance_with = ROOT }
+					#@ new. can_stop already had this line; can_end did not, which is
+					#@ why winning a war against the horde could not end the disaster.
+					#@ cb_insult's peace list is po_revoke_cores / po_gold /
+					#@ po_concede_defeat / po_humiliate_rival - no land and no
+					#@ subjugation - so the "show superiority" option in
+					#@ mht_nomadic.3 could be won outright and still leave the
+					#@ disaster running forever. Any peace now clears it.
+					#@
+					#@ It comes back. This disaster is one of only 12 of 51 with no
+					#@ recurrence guard in potential/can_start - ming_crisis and
+					#@ empire_of_china_culture both have one, this does not - and
+					#@ on_start_effect clears its own ticker flags precisely so it
+					#@ can run again. Truce is TRUCE_YEARS 5, plus up to
+					#@ SCALED_TRUCE_YEARS 10 scaled by warscore taken, so a crushing
+					#@ win buys 15 years of quiet and a white peace buys 5.
+					NOT = { truce_with = ROOT }
 					is_subject = no
 					custom_trigger_tooltip = {
 						tooltip = empire_of_china_nomadic_border_tt
