@@ -73,8 +73,9 @@ military_governors_decision = {
 
 centralizing_top_government_decision = {
 	empire = celestial_empire
-	trigger = { crown_land_share = 65 } 
+	trigger = { crown_land_share = 65  
 		mht_can_pass_celestial_reform_trigger = yes	#@ new. See common/scripted_triggers/zz_mht_celestial_reforms.txt.
+	}
 	member = { all_estate_influence_modifier = -0.05 }
 	emperor = { monarch_admin_power = 1 }
 	
@@ -82,8 +83,9 @@ centralizing_top_government_decision = {
 
 vassalize_tributaries_decision = {
 	empire = celestial_empire
-	trigger = { empire_of_china_num_reforms_passed = 8 }
+	trigger = { empire_of_china_num_reforms_passed = 8
 		mht_can_pass_celestial_reform_trigger = yes	#@ new. See common/scripted_triggers/zz_mht_celestial_reforms.txt.
+	}
 	emperor = {
 		imperial_mandate = 0.05
 		liberty_desire_from_subject_development = -0.33
